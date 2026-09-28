@@ -6,6 +6,7 @@
         "strict": true,
         "erasableSyntaxOnly": true,
         "allowArbitraryExtensions": true,
+        "allowImportingTsExtensions": true,
         "noEmit": true,
         "types": ["node"]
     }
