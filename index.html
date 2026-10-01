@@ -4,27 +4,21 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Gefine - Faturas</title>
+    <title>Gefina - Faturas</title>
 </head>
 
 <body>
-    <h1>Faturas</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <td>Cliente</td>
-                <td>Valor</td>
-                <td>Data de Emissão</td>
-                <td>Data de vendimento</td>
-                <td>Situação</td>
-            </tr>
-        </thead>
-        <tbody>
+    <div id="root"></div>
 
-        </tbody>
-    </table>
-    <script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+
+        const root = document.querySelector("#root");
+
         const invoices = [
             {
                 id: 1,
@@ -64,42 +58,52 @@
             },
         ];
 
-        const tableBody = document.querySelector("tbody");
         function statusLabel(status) {
-            return status ==="paid" ? "Pago" : "Pendente";
-               }
-
-for (let i = 0; i < invoices.length; i++) {
-    const invoice = invoices[i];
-
-    const row = document.createElement("tr");
-
-    const client = document.createElement("td");
-    client.textContent = invoice.customer.name;
-    row.appendChild(client);
-
-    const amount = document.createElement("td");
-    amount.textContent = invoice.amount;
-    row.appendChild(amount);
-
-    const issueDate = document.createElement("td");
-    issueDate.textContent = invoice.issueDate;
-    row.appendChild(issueDate);
-
-    const dueDate = document.createElement("td");
-    dueDate.textContent = invoice.dueDate;
-    row.appendChild(dueDate);
-
-    const status = document.createElement("td");
-    status.textContent = statusLabel(invoice.status);
-    row.appendChild(status);
-
-    tableBody.appendChild(row);
-
-
+            return status === "paid" ? "Pago" : "Pendente";
         }
 
+        function App(props) {
+            return (
+                <div>
+                    <h1>Faturas</h1>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Cliente</td>
+                                <td>Valor</td>
+                                <td>Data de Emissão</td>
+                                <td>Data de Vencimento</td>
+                                <td>Situação</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {invoices.map(function (invoice) {
+                                return (
+                                    <tr key={invoice.id}>
+                                        <td>{invoice.customer.name}</td>
+                                        <td>{invoice.amount}</td>
+                                        <td>{invoice.issueDate}</td>
+                                        <td>{invoice.dueDate}</td>
+                                        <td>{statusLabel(invoice.status)}</td>
+                                    </tr>
+                                );
+                            })}
+
+                        </tbody>
+                    </table>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(root).render(
+            <App />
+        );
+
     </script>
+
 </body>
 
 </html>
