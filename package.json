@@ -1,18 +1,12 @@
 {
-  "name": "gefina",
+"name": "gefina",
   "version": "0.0.0",
   "description": "Sistema de gestão de contas a receber",
-  "author": "Lorena paz",
-  "type": "module",
-  "scripts": {
-    "dev": "node --watch ./server.ts"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.6",
-    "@types/node": "^26.6.3",
-    "typescript": "^7.0.2"
-  },
-  "dependencies": {
-    "express": "^5.2.1"
-  }
+  "author": "Lorena paz"
 }
+ "scripts": {
+        "check": "biome check ./"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "2.5.15"
+    }
