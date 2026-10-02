@@ -1,12 +1,14 @@
 {
-"name": "gefina",
-  "version": "0.0.0",
-  "description": "Sistema de gestão de contas a receber",
-  "author": "Lorena paz"
-}
- "scripts": {
-        "check": "biome check ./"
+    "name": "gefina",
+    "version": "0.0.0",
+    "description": "Sistema de gestão de contas a receber",
+    "author": "Lorena paz",
+    "scripts": {
+        "check": "biome check ./",
+        "fix": "biome check --write ./",
+        "fix:unsafe": "biome check --write --unsafe ./"
     },
     "devDependencies": {
         "@biomejs/biome": "2.5.15"
     }
+}

@@ -11,7 +11,7 @@
             "semicolons": "always"
         }
     },
-    "linter":  {
+    "linter": {
         "enabled": true,
         "rules": {
             "recommended": true
