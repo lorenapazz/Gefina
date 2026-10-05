@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
+import App from "./App";
 
-const root = document.querySelector("div")
+const root = document.querySelector("div");
 
-if (root !==null) createRoot(root).render("Ooie")
+if (root !== null) createRoot(root).render(<App />);
