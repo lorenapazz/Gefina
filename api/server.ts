@@ -1,6 +1,5 @@
 import express from "express";
-
-
+import invoiceRouter from "./invoice.route.ts";
 
 const app = express();
 
@@ -16,7 +15,7 @@ app.get("/api/health", function (request, response) {
     });
 });
 
-
+app.use("/api/invoices", invoiceRouter);
 
 app.use(function (request, response) {
     response.status(404).json({

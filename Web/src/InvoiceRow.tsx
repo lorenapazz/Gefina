@@ -1,16 +1,21 @@
 import type { Invoice } from "./invoiceTypes";
 
 interface InvoiceRowProps {
-    invoice: Invoice;
-
+  invoice: Invoice;
 }
 
-export default function InvoiceRow(props) {
-    return <tr>
-        <td>{props.invoice.customer.name7} </td>
-        <td>{props.invoice.amount} </td>
-        <td>{props.invoice.issueDate} </td>
-        <td>{props.invoice.dueDate} </td>
-        <td> {StatusLabel(props.invoice.status)} </td>
-    </tr>;
+function statusLabel(status: Invoice["status"]) {
+  return status === "paid" ? "Pago" : "Pendente";
+}
+
+export default function InvoiceRow(props: InvoiceRowProps) {
+  return (
+    <tr>
+      <td>{props.invoice.customer.name}</td>
+      <td>{props.invoice.amount}</td>
+      <td>{props.invoice.issueDate}</td>
+      <td>{props.invoice.dueDate}</td>
+      <td>{statusLabel(props.invoice.status)}</td>
+    </tr>
+  );
 }
