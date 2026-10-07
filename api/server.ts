@@ -27,4 +27,4 @@ app.use(function (request, response) {
     });
 });
 
-app.listen(3001);
+app.listen(Number(process.env.PORT) || 3001);
