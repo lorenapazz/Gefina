@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-import type { Invoice } from './invoiceType.js';
-import InvoiceTable from './InvoiceTable.js';
+import type { Invoice } from "./invoiceTypes";
+import InvoiceTable from "./invoiceTable";
 
 export default function App() {
     const [invoices, setInvoices] = useState<Invoice[]>([]);
