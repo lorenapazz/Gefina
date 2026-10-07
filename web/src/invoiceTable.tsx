@@ -1,5 +1,5 @@
 import type { Invoice } from "./invoiceTypes";
-import InvoiceRow from "./InvoiceRow.tsx";
+import InvoiceRow from "./InvoiceRow";
 
 interface InvoiceTableProps {
     invoices: Invoice[];
