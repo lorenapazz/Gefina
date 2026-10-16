@@ -1,5 +1,6 @@
 import express from "express";
 import path from "node:path"
+import pool from "./database.ts"
 
 import invoiceRouter from "./invoice.route.ts";
 
@@ -12,9 +13,12 @@ app.use(function (request, response, next) {
     next();
 });
 
-app.get("/api/health", function (request, response) {
+app.get("/api/health", async (request, response) {
+  const connect = await pool.query("SELECT datname FROM pg_database WHERE oid =5;");
+    
     response.status(200).json({
-        status: "ok"
+        status: "server ins running",
+        database: connect.rows[0].datname
     });
 });
 
