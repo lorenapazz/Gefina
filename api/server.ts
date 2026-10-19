@@ -1,7 +1,7 @@
 import express from "express";
 import path from "node:path"
 import pool from "./database.ts"
-
+import dashboard from "./dashboard.route.ts"
 import invoiceRouter from "./invoice.route.ts";
 
 const app = express();
@@ -12,8 +12,6 @@ app.use(function (request, response, next) {
 
     next();
 });
-
-
 
 app.get('/api/health', async (_request, response) => {
   try {
@@ -33,7 +31,7 @@ app.get('/api/health', async (_request, response) => {
   }
 });
 
-
+app.use("/api/dashboard", dashboard);
 app.use("/api/invoices", invoiceRouter);
 app.use(express.static(dist));
 
