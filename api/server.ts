@@ -31,9 +31,21 @@ app.get('/api/health', async (_request, response) => {
   }
 });
 
+
 app.use("/api/dashboard", dashboard);
 app.use("/api/invoices", invoiceRouter);
+
 app.use(express.static(dist));
+
+app.use((request, response, next) => {
+    if (request.url.startsWith("/api")) {
+        next();
+        return;
+    }
+
+    response.sendFile(path.join(dist, "index.html"));
+});
+
 
 app.use(function (request, response) {
     response.status(404).json({
