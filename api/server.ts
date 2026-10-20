@@ -1,7 +1,7 @@
 import express from "express";
 import path from "node:path"
 import pool from "./database.ts"
-
+import dashboard from "./dashboard.route.ts"
 import invoiceRouter from "./invoice.route.ts";
 
 const app = express();
@@ -13,15 +13,25 @@ app.use(function (request, response, next) {
     next();
 });
 
-app.get("/api/health", async (request, response) {
-  const connect = await pool.query("SELECT datname FROM pg_database WHERE oid =5;");
-    
+app.get('/api/health', async (_request, response) => {
+  try {
+    const connect = await pool.query('SELECT datname FROM pg_database WHERE oid = 5;');
+
     response.status(200).json({
-        status: "server ins running",
-        database: connect.rows[0].datname
+      status: 'Server is running.',
+      database: connect.rows[0].datname
     });
+  } catch (error) {
+    console.error(error);
+
+    response.status(500).json({
+      status: 'Server is running.',
+      database: 'unavailable'
+    });
+  }
 });
 
+app.use("/api/dashboard", dashboard);
 app.use("/api/invoices", invoiceRouter);
 app.use(express.static(dist));
 
