@@ -1,109 +1,13 @@
-<!DOCTYPE html>
 
+<!doctype html>
 <html lang="pt-BR">
+    <head>
+        <meta charset="utf-8" />
+        <title>Gefina - Faturas</title>
+    </head>
+    <body>
+        <div id="root"></div>
 
-<head>
-    <meta charset="utf-8">
-    <title>Gefina - Faturas</title>
-</head>
-
-<body>
-
-    <div id="root"></div>
-    <script type="module" src="./src/main.tsx"></script>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <script type="text/babel">
-
-        const root = document.querySelector("#root");
-
-        const invoices = [
-            {
-                id: 1,
-                amount: 125000,
-                status: "pending",
-                issueDate: "2026-06-01",
-                dueDate: "2026-06-15",
-                customer: {
-                    id: 1,
-                    name: "Construtora Meridiano",
-                    email: "contato@meridiano.com.br"
-                },
-            },
-            {
-                id: 2,
-                amount: 348000,
-                status: "paid",
-                issueDate: "2026-05-12",
-                dueDate: "2026-06-11",
-                customer: {
-                    id: 1,
-                    name: "Construtora Meridiano",
-                    email: "contato@meridiano.com.br"
-                },
-            },
-            {
-                id: 3,
-                amount: 96500,
-                status: "pending",
-                issueDate: "2026-06-20",
-                dueDate: "2026-07-20",
-                customer: {
-                    id: 2,
-                    name: "Gráfica Aurora",
-                    email: "contato@graficaaurora.com.br"
-                },
-            },
-        ];
-
-        function statusLabel(status) {
-            return status === "paid" ? "Pago" : "Pendente";
-        }
-
-        function App(props) {
-            return (
-                <div>
-                    <h1>Faturas</h1>
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>Cliente</td>
-                                <td>Valor</td>
-                                <td>Data de Emissão</td>
-                                <td>Data de Vencimento</td>
-                                <td>Situação</td>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            {invoices.map(function (invoice) {
-                                return (
-                                    <tr key={invoice.id}>
-                                        <td>{invoice.customer.name}</td>
-                                        <td>{invoice.amount}</td>
-                                        <td>{invoice.issueDate}</td>
-                                        <td>{invoice.dueDate}</td>
-                                        <td>{statusLabel(invoice.status)}</td>
-                                    </tr>
-                                );
-                            })}
-
-                        </tbody>
-                    </table>
-                </div>
-            );
-        }
-
-        ReactDOM.createRoot(root).render(
-            <App />
-        );
-
-    </script>
-
-</body>
-
+        <script type="module" src="./src/main.tsx"></script>
+    </body>
 </html>
