@@ -1,4 +1,3 @@
-
 import InvoiceRow from './InvoiceRow';
 import type { Invoice } from './invoiceTypes';
 
