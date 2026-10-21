@@ -56,3 +56,13 @@ a{
 .numeric {
     font-variant-numeric: tabular-nums;
 }
+
+.situation-paid {
+    color: var(--color-paid);
+}
+.situation.peding {
+    color: var(--color-pending);
+}
+.situation-overdue {
+    font-variant: var(--color-overdue);
+}
