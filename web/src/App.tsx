@@ -3,7 +3,7 @@ import {
     BrowserRouter,
     Routes,
     Route,
-    Link
+    NavLink
 } from "react-router";
 
 import DashboardPage from "./DashboardPage";
@@ -20,8 +20,8 @@ export default function App() {
                     </header>
 
                     <nav className="menu">
-                        <Link to="/">Painel Inicial</Link>
-                        <Link to="/faturas">Faturas</Link>
+                        <NavLink to="/">Painel Inicial</NavLink>
+                        <NavLink to="/faturas">Faturas</NavLink>
                     </nav>
                 </aside>
 

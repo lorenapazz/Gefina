@@ -83,6 +83,25 @@ a{
     font-size: var(--text-xl);
     font-weight: 600;
 }
+.menu ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1)
+}
+
+
+.menu a {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    color: var(var(--color-text-muted));
+    border-radius: var(var(--radius-control))
+}
+
+.menu a:hover, .menu a:focos-visible, menu a.active {
+background-color: var(--color-surface-raised);
+color: var(--color-text);
+}
+
 
 table {
     width: 100%;
