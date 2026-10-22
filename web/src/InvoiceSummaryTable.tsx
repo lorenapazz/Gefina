@@ -19,7 +19,7 @@ export default function InvoiceSummaryTable(props: InvoiceSummaryTableProps) {
                 <tr>
                     <th>Cliente</th>
                     <th>Valor</th>
-                    <th>{props.dateLabel}</th>
+                    <th> className="numeric numeric-date"{props.dateLabel} </th>
                 </tr>
             </thead>
             <tbody>

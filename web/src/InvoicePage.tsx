@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+
+import { useState, useEffect } from "react";
 
 import type { Invoice } from "./invoiceTypes";
 import InvoiceTable from "./invoiceTable";
@@ -11,30 +12,39 @@ export default function InvoicePage() {
     useEffect(() => {
         async function getInvoices() {
             try {
-                const response = await fetch('/api/invoices');
+                const response = await fetch("/api/invoices");
 
-                if (!response.ok){
-                    setError('Não foi possível carregar faturas.');
-                setLoading(false);
-                return;}
+                if (!response.ok) {
+                    setError("Não foi possível carregar faturas.");
+                    return;
+                }
 
-                const datas = await response.json();
-                setInvoices(datas);                
+                const data = await response.json();
+                setInvoices(data);
+
             } catch {
-                setError('Não foi possível carregar faturas.');
-            }
+                setError("Não foi possível carregar faturas.");
 
-            setLoading(false);
+            } finally {
+                setLoading(false);
+            }
         }
-        
+
         getInvoices();
     }, []);
 
-    if (loading) return <p>Carregando faturas...</p>
+    if (loading) {
+        return <p>Carregando faturas...</p>;
+    }
 
-    if (error) return <p>{error}</p>;
-    return <>
-    <h1>Faturas</h1></>
-    
-    return <InvoiceTable invoices={invoices} />
+    if (error) {
+        return <p>{error}</p>;
+    }
+
+    return (
+        <>
+            <h1>Faturas</h1>
+            <InvoiceTable invoices={invoices} />
+        </>
+    );
 }
