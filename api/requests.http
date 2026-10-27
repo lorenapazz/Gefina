@@ -1,0 +1,25 @@
+@host = http://localhost:3001
+
+### Verificar saúde
+GET {{host}}/api/health
+
+### Buscar métricas
+GET {{host}}/api/dashboar
+
+### Buscar Faturas
+GET {{host}}/api/invoices
+
+### Buscar fatura pelo identificador
+GET {{host}}/api/invoices/1
+
+### Criar Fatura
+POST {{host}}/api/invoices
+Content-Type: application/json
+
+{
+    "customerId":1,
+    "amount": 125035,
+    "status": "peding",
+    "issueDate": "2026-10-01",
+    "dueDate": "2026-10-31"
+}

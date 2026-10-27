@@ -3,8 +3,10 @@ import path from "node:path"
 import pool from "./database.ts"
 import dashboard from "./dashboard.route.ts"
 import invoiceRouter from "./invoice.route.ts";
+import handleError from "./error.middleware.ts";
 
 const app = express();
+app.use(express.json());
 const dist = path.join(import.meta.dirname, "..", "web", "dist");
 
 app.use(function (request, response, next) {
@@ -53,4 +55,6 @@ app.use(function (request, response) {
     });
 });
 
+
+app.use(handleError);
 app.listen(Number(process.env.PORT) || 3001);
