@@ -1,5 +1,6 @@
 :root {
   --color-background: #0f1117;
+  --color-background-backdrop:#0f1179;
   --color-surface: #171a21;
   --color-surface-raised: #1f232c;
   --color-border: #2a2f3a;
@@ -106,6 +107,10 @@ a {
   color: var(--color-text);
 }
 
+.menu a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
 .content {
   margin-left: var(--sidebar-width);
   padding: var(--space-8);
@@ -179,4 +184,101 @@ th, td {
 
 .situation-overdue {
   color: var(--color-overdue);
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+
+.page-header h1{
+  margin-bottom: 0;
+}
+.invoice-modal {
+  width: 720px;
+  padding: var(--space-6);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+
+}
+
+.invoice-modal::backdrop{
+  background-color: var(--color-background);
+  
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.field label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.horizontal-fields {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.form-actions {
+  display:flex;
+  justify-content: end;
+  gap: var(--space-2);
+}
+input,
+select,
+button {
+  font-family: inherit;
+  font-size: var(--text-base);
+  border-radius: var(--radius-control);
+}
+
+input,
+select {
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text);
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible{
+  outline: 2x solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.button:disable {
+  cursor: default;
+  opacity: 0.75;
+}
+
+button-primary {
+  color: var(--color-text);
+  background-color: var(--color-primary);
+}
+
+.button-secondary {
+  background-color: transparent;
+  color: var(--color-text);
+  border-color: var(color --color-border); 
+}
+
+.button-danger {
+  background-color: transparent;
+  color: var(--color-overdue);
+  border-color: var(--color-overdue);
+
 }

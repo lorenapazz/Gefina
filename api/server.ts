@@ -1,24 +1,29 @@
-import express from "express";
-import path from "node:path"
-import pool from "./database.ts"
-import dashboard from "./dashboard.route.ts"
-import invoiceRouter from "./invoice.route.ts";
-import handleError from "./error.middleware.ts";
+import express from 'express';
+
+import path from 'node:path';
+import fs from 'node:fs';
+
+import pool from './database.ts';
+
+import dashboard from './dashboard.route.ts';
+import invoices from './invoice.route.ts';
+
+import handleError from './error.middleware.ts';
 
 const app = express();
 app.use(express.json());
-const dist = path.join(import.meta.dirname, "..", "web", "dist");
 
-app.use(function (request, response, next) {
-    console.log(request.method + " " + request.url);
+const dist = path.join(import.meta.dirname, '..', 'web', 'dist');
 
-    next();
+app.use((request, _response, next) => {
+  console.log(`${request.method} ${request.url}`);
+  next();
 });
 
 app.get('/api/health', async (_request, response) => {
   try {
     const connect = await pool.query('SELECT datname FROM pg_database WHERE oid = 5;');
-
+  
     response.status(200).json({
       status: 'Server is running.',
       database: connect.rows[0].datname
@@ -28,33 +33,32 @@ app.get('/api/health', async (_request, response) => {
 
     response.status(500).json({
       status: 'Server is running.',
-      database: 'unavailable'
+      database: 'unvaliable'
     });
   }
 });
 
-
-app.use("/api/dashboard", dashboard);
-app.use("/api/invoices", invoiceRouter);
+app.use('/api/dashboard', dashboard);
+app.use('/api/invoices', invoices);
 
 app.use(express.static(dist));
 
 app.use((request, response, next) => {
-    if (request.url.startsWith("/api")) {
-        next();
-        return;
-    }
+  if (request.url.startsWith('/api') || !fs.existsSync(path.join(dist, 'index.html'))) {
+    next();
+    return;
+  }
 
-    response.sendFile(path.join(dist, "index.html"));
+  response.sendFile(path.join(dist, 'index.html'));
 });
 
-
-app.use(function (request, response) {
-    response.status(404).json({
-        message: "Recurso não encontrado"
-    });
+app.use((_request, response) => {
+  response.status(404).json({ error: {
+    status: 404,
+    message: 'Recurso não encontrado.'
+  }});
 });
-
 
 app.use(handleError);
-app.listen(Number(process.env.PORT) || 3001);
+
+app.listen(Number(process.env.PORT) || 3000);
