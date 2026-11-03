@@ -219,6 +219,7 @@ form {
   flex-direction: column;
   gap: var(--space-4);
 }
+
 .field {
   display: flex;
   flex-direction: column;
@@ -240,6 +241,15 @@ form {
   display:flex;
   justify-content: end;
   gap: var(--space-2);
+}
+
+.confirm-form {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.confirm-form button {
+  flex-grow: 1;
 }
 input,
 select,

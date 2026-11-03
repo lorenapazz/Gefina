@@ -8,7 +8,8 @@ import InvoiceForm from './InvoiceForm';
 import {
     getAllInvoices,
     createInvoice,
-    updateInvoice
+    updateInvoice,
+    deleteInvoice
 } from './invoiceApi.js';
 
 import type { CustomerOption } from './customerType.ts';
@@ -22,6 +23,7 @@ export default function InvoicePage() {
     const [loading, setLoading] = useState(true);
     const [dialogContent, setDialogContent] = useState(false);
     const [target, setTarget] = useState<Invoice | null>(null);
+    const [confirmDelete, setConfirmDelete] = useState(false);
 
     const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -104,6 +106,25 @@ export default function InvoicePage() {
         setBusy(false);
     }
 
+    async function confirm () {
+        if (!target) return;
+
+        setBusy(true);
+        setFormError(null);
+
+        try {
+            await deleteInvoice(target.id);
+            setConfirmDelete(false);
+            closeModal();
+
+            await refresh();
+        } catch (error) {
+            if (error instanceof Error) setFormError(error.message);
+
+        }
+        setBusy(false);
+        
+    }
     if (loading) return <p>Carregando faturas...</p>;
 
     if (error) return <p>{error}</p>;
@@ -126,22 +147,30 @@ export default function InvoicePage() {
                 />
             </div>
 
-            <dialog
-                ref={dialogRef}
-                onClose={() => setDialogContent(false)}
-            >
-                {dialogContent && (
-                    <InvoiceForm
-                        invoice={target}
-                        customers={customersOptions}
-                        error={formError}
-                        onDelete={() => null}
-                        onCancel={closeModal}
-                        onSubmit={submit}
-                        busy={busy}
-                    />
-                )}
-            </dialog>
-        </>
+           
+<dialog
+    className="invoice-modal"
+    ref={dialogRef}
+    onClose={() => {
+        setDialogContent(false);
+        setConfirmDelete(false);
+    }}
+>
+    {dialogContent && (
+        <InvoiceForm
+            invoice={target}
+            customers={customersOptions}
+            error={formError}
+            onDelete={() => null}
+            setConfirmeDelete={setConfirmDelete}
+            confirm={confirm}
+            onCancel={closeModal}
+            onSubmit={submit}
+            busy={busy}
+        />
+    )}
+</dialog>
+</>
+
     );
 }
