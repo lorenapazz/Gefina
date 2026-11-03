@@ -5,7 +5,12 @@ import type { Invoice, InvoiceInput } from './invoiceTypes.ts';
 import InvoiceTable from './invoiceTable';
 import InvoiceForm from './InvoiceForm';
 
-import { getAllInvoices, createInvoice } from './invoiceapi';
+import {
+    getAllInvoices,
+    createInvoice,
+    updateInvoice
+} from './invoiceApi.js';
+
 import type { CustomerOption } from './customerType.ts';
 
 export default function InvoicePage() {
@@ -16,10 +21,12 @@ export default function InvoicePage() {
     const [formError, setFormError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [dialogContent, setDialogContent] = useState(false);
+    const [target, setTarget] = useState<Invoice | null>(null);
 
     const dialogRef = useRef<HTMLDialogElement>(null);
 
-    function openModal() {
+    function openModal(invoice: Invoice | null) {
+        setTarget(invoice);
         setFormError(null);
         setDialogContent(true);
 
@@ -79,16 +86,22 @@ export default function InvoicePage() {
         setFormError(null);
 
         try {
-            await createInvoice(datas);
-            await refresh();
+            if (!target) {
+                await createInvoice(datas);
+            } else {
+                await updateInvoice(target.id, datas);
+            }
+
             closeModal();
+            await refresh();
+
         } catch (error) {
             if (error instanceof Error) {
                 setFormError(error.message);
             }
-        } finally {
-            setBusy(false);
         }
+
+        setBusy(false);
     }
 
     if (loading) return <p>Carregando faturas...</p>;
@@ -99,27 +112,36 @@ export default function InvoicePage() {
         <>
             <h1>Faturas</h1>
 
-            <button type="button" onClick={openModal}>
+            <button
+                type="button"
+                onClick={() => openModal(null)}
+            >
                 Nova Fatura
             </button>
 
             <div className="panel">
-                <InvoiceTable invoices={invoices} />
+                <InvoiceTable
+                    invoices={invoices}
+                    edit={openModal}
+                />
             </div>
 
-           <dialog ref={dialogRef} onClose={closeModal}>
-    {dialogContent && (
-        <InvoiceForm
-            invoice={null}
-            customers={customersOptions}
-            error={formError}
-            onDelete={() => null}
-            onCancel={closeModal}
-            onSubmit={submit}
-            busy={busy}
-        />
-    )}
-</dialog>
+            <dialog
+                ref={dialogRef}
+                onClose={() => setDialogContent(false)}
+            >
+                {dialogContent && (
+                    <InvoiceForm
+                        invoice={target}
+                        customers={customersOptions}
+                        error={formError}
+                        onDelete={() => null}
+                        onCancel={closeModal}
+                        onSubmit={submit}
+                        busy={busy}
+                    />
+                )}
+            </dialog>
         </>
     );
 }

@@ -166,6 +166,9 @@ th, td {
   padding: var(--space-3);
 }
 
+.td-button{
+  text-align: center;
+}
 .numeric {
   font-variant-numeric: tabular-nums;
 }
