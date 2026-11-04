@@ -7,7 +7,8 @@ import {
   modifyInvoice,
   removeInvoice
 } from './invoice.service.ts';
-
+import { invoiceSchema, toFieldErrors } from './invoice.schema.ts';
+import { error } from 'node:console';
 const router = Router();
 
 function parseID(value: string): number | undefined {
@@ -47,15 +48,33 @@ router.get('/:id', async (request, response) => {
     response.status(200).json(invoice);
 });
 
-router.post('/', async (request, response) => {
-  const invoice = await insertInvoice(request.body);
 
-    if (!invoice) response.status(404).json({ error: {
-      status: 404,
-      message: 'Fatura não encontrada.'
-    }});
+router.post('/', async (request, response) => {
+    const result = invoiceSchema.safeParse(request.body);
+
+    if (!result.success) {
+        response.status(400).json({
+            error: {
+                status: 400,
+                message: 'Dados inválidos',
+                fields: toFieldErrors(result.error)
+            }
+        });
+        return;
+    }
+
+    const invoice = await insertInvoice(result.data);
 
     response.status(201).json(invoice);
+});
+
+
+    //if (!invoice) response.status(404).json({ error: {
+      status: 404,
+  //    message: 'Fatura não encontrada.'
+   // }});
+
+   // response.status(201).json(invoice);
 });
 
 router.put('/:id', async (request, response) => {
