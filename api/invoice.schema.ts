@@ -1,16 +1,16 @@
-import {z, type ZodError} from "zod";
+import { z, type ZodError } from 'zod';
 
-const invoiceStatusSchema = z.enum(
-    [
+const invoiceStatusSchema = z.enum([
         'paid',
         'pending'
     ],
     'A situação informada é inválida. Os valores permitidos são "Paga" e "Pendente".'
 );
 
+export type InvoiceStatus = z.infer<typeof invoiceStatusSchema>
+
 export const invoiceSchema = z
-    .object(
-        {
+    .object({
             customerId: z
                 .number('O cliente é obrigatório.')
                 .int('O identificador do cliente deve ser um número inteiro.')
@@ -24,16 +24,16 @@ export const invoiceSchema = z
             dueDate: z.iso.date('A data de vencimento deve ser uma data válida.')
         })
         .refine(
-            (datas)=> datas.dueDate >= datas.issueDate,
-        
-        )
-        {
-            error: "A data de vencimento não pode ser anterior a data de emisão."
-            path: ['dueDate']
-        }
+            (datas) => datas.dueDate >= datas.issueDate,
+            {
+                error: 'A data de vencimento não pode ser anterior a data de emissão.',
+                path: ['dueDate']
+            }
+        );
 
-type InvoiceInput = z.infer<typeof invoiceSchema>;
-interface InvoiceFieldErros {
+export type InvoiceInput = z.infer<typeof invoiceSchema>;
+
+interface InvoiceFieldErrors {
     customerId?: string;
     amount?: string;
     status?: string;
@@ -41,17 +41,20 @@ interface InvoiceFieldErros {
     dueDate?: string;
 }
 
-
 export function toFieldErrors(error: ZodError<InvoiceInput>): InvoiceFieldErrors {
-    const { fieldErrors } = z.flattenError(error);
+  const { 
+    customerId,
+    amount,
+    status,
+    issueDate,
+    dueDate
+   } = z.flattenError(error).fieldErrors;
 
-    return {
-        customerId: fieldErrors.customerId,
-        amount: fieldErrors.amount,
-        status: fieldErrors.status,
-        issueDate: fieldErrors.issueDate,
-        dueDate: fieldErrors.dueDate
-    };
+  return {
+    customerId: customerId?.[0],
+    amount: amount?.[0],
+    status: status?.[0],
+    issueDate: issueDate?.[0],
+    dueDate: dueDate?.[0]
+  };
 }
-
-    
