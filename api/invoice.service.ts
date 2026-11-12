@@ -8,7 +8,7 @@ import type {
 } from './invoice.schema.ts';
 import prisma from './prisma.ts';
 
-type InvoiceSituation = 'paid' | 'pending' | 'overdue';
+export type InvoiceSituation = 'paid' | 'pending' | 'overdue';
 
 export interface Invoice {
   id: number;

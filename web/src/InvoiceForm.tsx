@@ -1,5 +1,5 @@
 import { useState, type SetStateAction, type SubmitEvent } from 'react';
-
+import type { InvoiceFieldErrors } from '../../api/invoice.schema.ts';
 import type { Invoice, InvoiceStatus, InvoiceInput } from './invoiceTypes.ts';
 import type { CustomerOption } from './customerType.ts';
 
@@ -7,11 +7,12 @@ interface InvoiceFormProps {
     invoice: Invoice | null;
     customers: CustomerOption[];
     error: string | null;
+    fieldErrors: InvoiceFieldErrors;
     onDelete: () => void;
     confirmDelete: boolean;
-    setConfirmDelete: React.Dispatch<SetStateAction<boolean>>
+    setConfirmDelete: React.Dispatch<SetStateAction<boolean>>;
     onCancel: () => void;
-    confirm: ()=> void;
+    confirm: () => void;
     onSubmit: (values: InvoiceInput) => void;
     busy: boolean;
 }

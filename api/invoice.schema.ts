@@ -33,7 +33,7 @@ export const invoiceSchema = z
 
 export type InvoiceInput = z.infer<typeof invoiceSchema>;
 
-interface InvoiceFieldErrors {
+export interface InvoiceFieldErrors {
     customerId?: string;
     amount?: string;
     status?: string;

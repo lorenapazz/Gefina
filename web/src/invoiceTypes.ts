@@ -24,3 +24,7 @@ export interface InvoiceInput {
   issueDate: string;
   dueDate: string;
 }
+
+export interface InvoiceFieldErrors {
+    [field: string]: string[] | undefined;
+}
