@@ -127,36 +127,33 @@ export default function InvoicePage() {
 
     // Cria ou atualiza uma fatura
     async function submit(datas: InvoiceInput) {
-    // Inicia o processamento
-    setBusy(true);
-    setFormError(null);
-    setFieldErrors({});
+        setBusy(true);
+        setFormError(null);
+        setFieldErrors({});
 
-    try {
-        if (!target) {
-            // Cria uma nova fatura
-            await createInvoice(datas);
-        } else {
-            // Atualiza uma fatura existente
-            await updateInvoice(target.id, datas);
+        try {
+            if (!target) {
+                // Cria uma nova fatura
+                await createInvoice(datas);
+            } else {
+                // Atualiza uma fatura existente
+                await updateInvoice(target.id, datas);
+            }
+
+            // Atualiza a lista de faturas
+            await refresh();
+
+            // Fecha o formulário
+            closeModal();
+
+        } catch (error) {
+            if (error instanceof Error) {
+                setFormError(error.message);
+            }
+        } finally {
+            setBusy(false);
         }
-
-        // Atualiza a lista de faturas
-        await refresh();
-
-        // Fecha o formulário
-        closeModal();
-
-    } catch (error) {
-        // Exibe uma mensagem caso ocorra algum erro
-        if (error instanceof Error) {
-            setFormError(error.message);
-        }
-    } finally {
-        // Libera os botões ao finalizar
-        setBusy(false);
     }
-}
 
     // Confirma a exclusão de uma fatura
     async function confirm() {
@@ -186,21 +183,31 @@ export default function InvoicePage() {
 
     // Exibe mensagem durante o carregamento
     if (loading) {
-        return <p>Carregando faturas...</p>;
+        return (
+            <p className="p-4 text-sm text-gray-500">
+                Carregando faturas...
+            </p>
+        );
     }
 
     // Exibe erro caso a busca falhe
     if (error) {
-        return <p>{error}</p>;
+        return (
+            <p className="rounded-lg bg-red-50 p-4 text-sm text-red-700">
+                {error}
+            </p>
+        );
     }
 
     return (
         <>
-            <header className="page-header">
-                <h1>Faturas</h1>
+            <header className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl font-semibold">
+                    Faturas
+                </h1>
 
                 <button
-                    className="button-primary"
+                    className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md transition-colors"
                     type="button"
                     onClick={() => openModal(null)}
                 >
@@ -208,7 +215,7 @@ export default function InvoicePage() {
                 </button>
             </header>
 
-            <div className="panel">
+            <div className="bg-white border border-gray-200 rounded-lg overflow-x-auto">
                 <InvoiceTable
                     invoices={invoices}
                     edit={openModal}
@@ -216,7 +223,7 @@ export default function InvoicePage() {
             </div>
 
             <dialog
-                className="invoice-modal"
+                className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl backdrop:bg-black/50"
                 ref={dialogRef}
                 onClose={() => {
                     setDialogContent(false);

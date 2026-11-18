@@ -58,7 +58,7 @@ export default function DashboardPage() {
                 <SummaryCard label="Clientes:"value={String(dashboard.totals.customerCount)}
                 />
             </div>
-<div className='summary-tables'>
+<div className='flex gap-6 mt-8'>
 <InvoiceSummaryTable
     title="Faturas Recentes"
     dateLabel="Emissão"

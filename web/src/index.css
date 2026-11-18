@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
-:root {
+@theme {
+
   --color-background: #0f1117;
   --color-background-backdrop: #0f111799;
   --color-surface: #171a21;
@@ -13,13 +14,6 @@
   --color-pending: #d29922;
   --color-overdue: #f85149;
 
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
 
   --radius-control: 6px;
   --radius-surface: 10px;
