@@ -51,20 +51,36 @@ export default function InvoiceForm(props: InvoiceFormProps) {
         });
     };
 
+    // Classes reutilizáveis do Tailwind
+    const field = "flex flex-col gap-1";
+    const label = "text-sm text-text-muted";
+    const input = "w-full px-3 py-2 border border-border rounded-control bg-surface-raised text-text focus-visible:outline-2 focus-visible:outline-primary";
+    const buttonSecondary = "px-4 py-2 border border-border rounded-control text-text hover:bg-surface-raised disabled:opacity-50";
+    const buttonDanger = "px-4 py-2 border border-overdue rounded-control text-overdue hover:bg-surface-raised disabled:opacity-50";
+    const buttonPrimary = "px-4 py-2 bg-primary text-white rounded-control font-medium hover:opacity-90 disabled:opacity-50";
+
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>{!props.invoice ? 'Criar fatura' : 'Editar fatura'}</h2>
+        <form
+            className="flex flex-col gap-4"
+            onSubmit={handleSubmit}
+        >
+            <h2 className="text-xl font-semibold mb-2">
+                {!props.invoice ? 'Criar fatura' : 'Editar fatura'}
+            </h2>
 
-            <div className="field">
-                <label htmlFor="customer">Cliente</label>
+            {/* Cliente */}
+            <div className={field}>
+                <label className={label} htmlFor="customer">
+                    Cliente
+                </label>
 
-                
-<select
-    id="customer"
-    value={customerId}
-    onChange={(event) => setCustomerId(event.target.value)}
-    required
-
+                <select
+            
+                    id="customer"
+                    className={input}
+                    value={customerId}
+                    onChange={(event) => setCustomerId(event.target.value)}
+                    required
                 >
                     <option value="">Selecione um cliente</option>
 
@@ -76,15 +92,22 @@ export default function InvoiceForm(props: InvoiceFormProps) {
                 </select>
 
                 {props.fieldErrors.customerId && (
-                    <p>{props.fieldErrors.customerId}</p>
+                    <p className="text-sm text-overdue">
+                        {props.fieldErrors.customerId}
+                    </p>
                 )}
             </div>
 
-            <div className="field">
-                <label htmlFor="amount">Valor</label>
+            {/* Valor */}
+            <div className={field}>
+                <label className={label} htmlFor="amount">
+                    Valor
+                </label>
 
                 <input
+                className={input}
                     id="amount"
+        
                     type="number"
                     value={amount}
                     step="0.01"
@@ -94,15 +117,22 @@ export default function InvoiceForm(props: InvoiceFormProps) {
                 />
 
                 {props.fieldErrors.amount && (
-                    <p>{props.fieldErrors.amount}</p>
+                    <p className="text-sm text-overdue">
+                        {props.fieldErrors.amount}
+                    </p>
                 )}
             </div>
 
-            <div className="field">
-                <label htmlFor="status">Situação</label>
+            {/* Situação */}
+            <div className={field}>
+                <label className={label} htmlFor="status">
+                    Situação
+                </label>
 
                 <select
+                className={`${input} appearance-nome`}
                     id="status"
+                
                     value={status}
                     onChange={(event) =>
                         setStatus(event.target.value as InvoiceStatus)
@@ -113,49 +143,71 @@ export default function InvoiceForm(props: InvoiceFormProps) {
                 </select>
 
                 {props.fieldErrors.status && (
-                    <p>{props.fieldErrors.status}</p>
+                    <p className="text-sm text-overdue">
+                        {props.fieldErrors.status}
+                    </p>
                 )}
             </div>
 
-            <div className="field">
-                <label htmlFor="issueDate">Emissão</label>
+            {/* Datas */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 scheme-dark">
+                <div className={field}>
+                    <label className={label} htmlFor="issueDate">
+                        Emissão
+                    </label>
 
-                <input
-                    id="issueDate"
-                    type="date"
-                    value={issueDate}
-                    onChange={(event) => setIssueDate(event.target.value)}
-                    required
-                />
+                    <input
+                    className={input}
+                        id="issueDate"
+                    
+                        type="date"
+                        value={issueDate}
+                        onChange={(event) => setIssueDate(event.target.value)}
+                        required
+                    />
 
-                {props.fieldErrors.issueDate && (
-                    <p>{props.fieldErrors.issueDate}</p>
-                )}
+                    {props.fieldErrors.issueDate && (
+                        <p className="text-sm text-overdue">
+                            {props.fieldErrors.issueDate}
+                        </p>
+                    )}
+                </div>
+
+                <div className={field}>
+                    <label className={label} htmlFor="dueDate">
+                        Vencimento
+                    </label>
+
+                    <input
+                        className={input}
+                        id="dueDate"
+                        type="date"
+                        value={dueDate}
+                        min={issueDate}
+                        onChange={(event) => setDueDate(event.target.value)}
+                        required
+                    />
+
+                    {props.fieldErrors.dueDate && (
+                        <p className="text-sm text-overdue">
+                            {props.fieldErrors.dueDate}
+                        </p>
+                    )}
+                </div>
             </div>
 
-            <div className="field">
-                <label htmlFor="dueDate">Vencimento</label>
+            {/* Erro geral */}
+            {props.error && (
+                <p className="text-sm text-overdue">
+                    {props.error}
+                </p>
+            )}
 
-                <input
-                    id="dueDate"
-                    type="date"
-                    value={dueDate}
-                    min={issueDate}
-                    onChange={(event) => setDueDate(event.target.value)}
-                    required
-                />
-
-                {props.fieldErrors.dueDate && (
-                    <p>{props.fieldErrors.dueDate}</p>
-                )}
-            </div>
-
-            {props.error && <p>{props.error}</p>}
-
-            <div>
+            {/* Botões */}
+            <div className="flex justify-end items-center gap-2 mt-4">
                 {props.invoice && (
                     <button
-                        className="button-danger"
+                        className={`${buttonDanger} mr-auto`}
                         type="button"
                         disabled={props.busy}
                         onClick={props.onDelete}
@@ -167,7 +219,7 @@ export default function InvoiceForm(props: InvoiceFormProps) {
                 )}
 
                 <button
-                    className="button-secondary"
+                    className={buttonSecondary}
                     type="button"
                     disabled={props.busy}
                     onClick={props.onCancel}
@@ -176,6 +228,7 @@ export default function InvoiceForm(props: InvoiceFormProps) {
                 </button>
 
                 <button
+                    className={buttonPrimary}
                     type="submit"
                     disabled={props.busy}
                 >
@@ -185,30 +238,33 @@ export default function InvoiceForm(props: InvoiceFormProps) {
                 </button>
             </div>
 
+            {/* Confirmação de exclusão */}
             {props.confirmDelete && (
-                <div className="confirm-form">
-                    <p>
+                <div className="flex flex-col gap-3 mt-4 p-4 border border-border rounded-control bg-surface-raised">
+                    <p className="text-sm text-text">
                         A exclusão é definitiva e não pode ser desfeita.
                         Deseja prosseguir?
                     </p>
 
-                    <button
-                        className="button-secondary"
-                        type="button"
-                        disabled={props.busy}
-                        onClick={() => props.setConfirmDelete(false)}
-                    >
-                        Não
-                    </button>
+                    <div className="flex justify-end gap-2">
+                        <button
+                            className={buttonSecondary}
+                            type="button"
+                            disabled={props.busy}
+                            onClick={() => props.setConfirmDelete(false)}
+                        >
+                            Não
+                        </button>
 
-                    <button
-                        className="button-danger"
-                        type="button"
-                        disabled={props.busy}
-                        onClick={props.confirm}
-                    >
-                        Sim
-                    </button>
+                        <button
+                            className={buttonDanger}
+                            type="button"
+                            disabled={props.busy}
+                            onClick={props.confirm}
+                        >
+                            Sim
+                        </button>
+                    </div>
                 </div>
             )}
         </form>
