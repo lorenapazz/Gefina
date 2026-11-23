@@ -1,14 +1,14 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "module": "nodenext",
-        "moduleResolution": "nodenext",
-        "strict": true,
-        "verbatimModuleSyntax":true,
-        "erasableSyntaxOnly": true,
-        "allowArbitraryExtensions": true,
-        "allowImportingTsExtensions": true,
-        "noEmit": true,
-        "types": ["node"]
-    }
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "allowArbitraryExtensions": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "types": ["node"]
+  }
 }

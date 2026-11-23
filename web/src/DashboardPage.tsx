@@ -1,80 +1,80 @@
-
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { Dashboard } from './dashboardTypes';
-
-import SummaryCard from './SummaryCard';
 import InvoiceSummaryTable from './InvoiceSummaryTable';
+import SummaryCard from './SummaryCard';
 import { formatCurrency } from './utils';
 
 export default function DashboardPage() {
-    const [dashboard, setDashboard] = useState<Dashboard | null>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
+  const [dashboard, setDashboard] = useState<null | Dashboard>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        async function getDashboard() {
-            try {
-                const response = await fetch('/api/dashboard');
+  useEffect(() => {
+    async function getDashboard() {
+      try {
+        const response = await fetch('/api/dashboard');
 
-                if (!response.ok) {
-                    setError('Não foi possível carregar o painel.');
-                    return;
-                }
-
-                const datas = await response.json();
-                setDashboard(datas);
-
-            } catch {
-                setError('Não foi possível carregar o painel.');
-            } finally {
-                setLoading(false);
-            }
+        if (!response.ok) {
+          setError('Não foi possível carregar faturas.');
+          setLoading(false);
+          return;
         }
 
-        getDashboard();
-    }, []);
+        const datas = await response.json();
+        setDashboard(datas);
+      } catch {
+        setError('Não foi possível carregar faturas.');
+      }
 
-    if (loading) return <p>Carregando Painel...</p>;
+      setLoading(false);
+    }
 
-    if (error) return <p>{error}</p>;
+    getDashboard();
+  }, []);
 
-    if (!dashboard) return <p>Painel indisponível.</p>;
+  if (loading) return <p>Carregando painel inicial...</p>;
 
-    return (
-        <>
-            <h1>PAINEL INICIAL</h1>
+  if (error || dashboard === null) return <p>{error}</p>;
 
-            <div className='summary-cards'>
-                <SummaryCard label="Total recebido:" value={formatCurrency(dashboard.totals.paid)}
-                />
+  return (
+    <>
+      <h1>Painel Inicial</h1>
 
-                <SummaryCard label="Total Pendente:"value={formatCurrency(dashboard.totals.pending)}
-                />
+      <div className="flex gap-4">
+        <SummaryCard
+          label="Total recebido:"
+          value={formatCurrency(dashboard.totals.paid)}
+        />
+        <SummaryCard
+          label="Total pendente:"
+          value={formatCurrency(dashboard.totals.pending)}
+        />
+        <SummaryCard
+          label="Faturas:"
+          value={String(dashboard.totals.invoiceCount)}
+        />
+        <SummaryCard
+          label="Clientes"
+          value={String(dashboard.totals.customerCount)}
+        />
+      </div>
 
-                <SummaryCard label="Faturas:" value={String(dashboard.totals.invoiceCount)}
-                />
+      <div className="flex gap-6 mt-8">
+        <InvoiceSummaryTable
+          title="Faturas recentes"
+          dateLabel="Emissão"
+          invoices={dashboard.recentInvoices}
+          date={(invoice) => invoice.issueDate}
+        />
 
-                <SummaryCard label="Clientes:"value={String(dashboard.totals.customerCount)}
-                />
-            </div>
-<div className='summary-tables'>
-<InvoiceSummaryTable
-    title="Faturas Recentes"
-    dateLabel="Emissão"
-    invoices={dashboard.recentInvoices}
-    date={(invoice) => invoice.issueDate}
-/>
-
-<InvoiceSummaryTable
-    title="Faturas Atrasadas"
-    dateLabel="Vencimento"
-    invoices={dashboard.overdueInvoices}
-    date={(invoice) => invoice.dueDate}
-/>
-</div>
-</>
-
-);
+        <InvoiceSummaryTable
+          title="Faturas atrasadas"
+          dateLabel="Vencimento"
+          invoices={dashboard.overdueInvoices}
+          date={(invoice) => invoice.dueDate}
+        />
+      </div>
+    </>
+  );
 }
-

@@ -44,7 +44,7 @@ const SEED_USERS: SeedUser[] = [
     name: 'Usuário Administrador',
     email: 'admin@gefina.com.br',
     role: 'admin',
-    customers: []
+    customers: [],
   },
   {
     name: 'Ana Bessa',
@@ -58,8 +58,8 @@ const SEED_USERS: SeedUser[] = [
       { name: 'Editora Pirâmide', invoiceCount: 11 },
       { name: 'Ferragens Atlântico', invoiceCount: 10 },
       { name: 'Gráfica Boreal', invoiceCount: 9 },
-      { name: 'Hidrotec Instalações', invoiceCount: 8 }
-    ]
+      { name: 'Hidrotec Instalações', invoiceCount: 8 },
+    ],
   },
   {
     name: 'Carlos Daniel',
@@ -72,8 +72,8 @@ const SEED_USERS: SeedUser[] = [
       { name: 'Laticínios Serrano', invoiceCount: 4 },
       { name: 'Marcenaria Tapajós', invoiceCount: 3 },
       { name: 'Nébula Software', invoiceCount: 2 },
-      { name: 'Ótica Girassol', invoiceCount: 1 }
-    ]
+      { name: 'Ótica Girassol', invoiceCount: 1 },
+    ],
   },
   {
     name: 'Eder Fagundes',
@@ -85,8 +85,8 @@ const SEED_USERS: SeedUser[] = [
       { name: 'Refrigeração Polar', invoiceCount: 12 },
       { name: 'Serralheria Vulcano', invoiceCount: 11 },
       { name: 'Transportes Guanabara', invoiceCount: 10 },
-      { name: 'Uniformes Cardinal', invoiceCount: 9 }
-    ]
+      { name: 'Uniformes Cardinal', invoiceCount: 9 },
+    ],
   },
   {
     name: 'Gustavo Hebe',
@@ -95,39 +95,39 @@ const SEED_USERS: SeedUser[] = [
     customers: [
       { name: 'Vidraçaria Horizonte', invoiceCount: 8 },
       { name: 'Xarope Botânico', invoiceCount: 7 },
-      { name: 'Zênite Consultoria', invoiceCount: 3 }
-    ]
-  }
+      { name: 'Zênite Consultoria', invoiceCount: 3 },
+    ],
+  },
 ];
 
 const INVOICE_AMOUNTS: number[] = [
   5_000, 89_000, 245_000, 480_000, 760_000, 1_120_000, 1_480_000,
   1_850_000, 2_240_000, 2_680_000, 3_150_000, 3_920_000, 4_850_000,
-  6_300_000, 7_950_000
+  6_300_000, 7_950_000,
 ];
 
 const PAID_INVOICE: InvoiceProfile = {
   status: 'paid',
   issuedDaysAgo: { minimum: 60, maximum: 359 },
-  paymentTermDays: { minimum: 15, maximum: 60 }
+  paymentTermDays: { minimum: 15, maximum: 60 },
 };
 
 const PENDING_INVOICE: InvoiceProfile = {
   status: 'pending',
   issuedDaysAgo: { minimum: 10, maximum: 29 },
-  paymentTermDays: { minimum: 45, maximum: 60 }
+  paymentTermDays: { minimum: 45, maximum: 60 },
 };
 
 const OVERDUE_INVOICE: InvoiceProfile = {
   status: 'pending',
   issuedDaysAgo: { minimum: 120, maximum: 319 },
-  paymentTermDays: { minimum: 15, maximum: 60 }
+  paymentTermDays: { minimum: 15, maximum: 60 },
 };
 
 const INVOICE_PROFILE_ROTATION: InvoiceProfile[] = [
   ...Array<InvoiceProfile>(9).fill(PAID_INVOICE),
   ...Array<InvoiceProfile>(7).fill(PENDING_INVOICE),
-  ...Array<InvoiceProfile>(4).fill(OVERDUE_INVOICE)
+  ...Array<InvoiceProfile>(4).fill(OVERDUE_INVOICE),
 ];
 
 const REGISTRATION_DELAY_DAYS: DayRange = { minimum: 0, maximum: 2 };
@@ -155,7 +155,7 @@ function addDays(date: Date, days: number): Date {
 
 function pickByRotation<Item>(
   items: readonly Item[],
-  index: number
+  index: number,
 ): Item {
   return items[index % items.length];
 }
@@ -170,8 +170,8 @@ function prepareCustomers(users: SeedUser[]): PreparedCustomer[] {
   const customersWithOwner = users.flatMap((user) =>
     user.customers.map((customer) => ({
       ...customer,
-      ownerEmail: user.email
-    }))
+      ownerEmail: user.email,
+    })),
   );
 
   return customersWithOwner.map((customer, index) => {
@@ -183,13 +183,13 @@ function prepareCustomers(users: SeedUser[]): PreparedCustomer[] {
       email: `cliente${customerNumber}@exemplo.com.br`,
       imageUrl: hasPhoto
         ? `https://i.pravatar.cc/80?img=${customerNumber}`
-        : null
+        : null,
     };
   });
 }
 
 function mapIdsByEmail(
-  records: { id: number; email: string }[]
+  records: { id: number; email: string }[],
 ): IdByEmail {
   return new Map(records.map((record) => [record.email, record.id]));
 }
@@ -206,23 +206,23 @@ function getRequiredId(idByEmail: IdByEmail, email: string): number {
 
 function buildInvoice(
   customerId: number,
-  invoiceIndex: number
+  invoiceIndex: number,
 ): Prisma.InvoiceCreateManyInput {
   const profile = pickByRotation(
     INVOICE_PROFILE_ROTATION,
-    invoiceIndex
+    invoiceIndex,
   );
   const daysSinceIssue = pickDaysByRotation(
     profile.issuedDaysAgo,
-    invoiceIndex
+    invoiceIndex,
   );
   const paymentTermDays = pickDaysByRotation(
     profile.paymentTermDays,
-    invoiceIndex
+    invoiceIndex,
   );
   const registrationDelayDays = pickDaysByRotation(
     REGISTRATION_DELAY_DAYS,
-    invoiceIndex
+    invoiceIndex,
   );
   const issueDate = addDays(TODAY, -daysSinceIssue);
 
@@ -232,31 +232,31 @@ function buildInvoice(
     status: profile.status,
     issueDate,
     dueDate: addDays(issueDate, paymentTermDays),
-    createdAt: addDays(issueDate, registrationDelayDays)
+    createdAt: addDays(issueDate, registrationDelayDays),
   };
 }
 
 async function resetTables(
-  transaction: Prisma.TransactionClient
+  transaction: Prisma.TransactionClient,
 ): Promise<void> {
   await transaction.$executeRaw`TRUNCATE users, sessions, customers, invoices RESTART IDENTITY`;
 }
 
 async function createUsers(
-  transaction: Prisma.TransactionClient
+  transaction: Prisma.TransactionClient,
 ): Promise<IdByEmail> {
   const users: Prisma.UserCreateManyInput[] = SEED_USERS.map(
     (user) => ({
       name: user.name,
       email: user.email,
       role: user.role,
-      passwordHash: PLACEHOLDER_PASSWORD_HASH
-    })
+      passwordHash: PLACEHOLDER_PASSWORD_HASH,
+    }),
   );
 
   const createdUsers = await transaction.user.createManyAndReturn({
     data: users,
-    select: { id: true, email: true }
+    select: { id: true, email: true },
   });
 
   return mapIdsByEmail(createdUsers);
@@ -264,20 +264,20 @@ async function createUsers(
 
 async function createCustomers(
   transaction: Prisma.TransactionClient,
-  userIdByEmail: IdByEmail
+  userIdByEmail: IdByEmail,
 ): Promise<IdByEmail> {
   const customers: Prisma.CustomerCreateManyInput[] =
     SEED_CUSTOMERS.map((customer) => ({
       userId: getRequiredId(userIdByEmail, customer.ownerEmail),
       name: customer.name,
       email: customer.email,
-      imageUrl: customer.imageUrl
+      imageUrl: customer.imageUrl,
     }));
 
   const createdCustomers =
     await transaction.customer.createManyAndReturn({
       data: customers,
-      select: { id: true, email: true }
+      select: { id: true, email: true },
     });
 
   return mapIdsByEmail(createdCustomers);
@@ -285,14 +285,14 @@ async function createCustomers(
 
 async function createInvoices(
   transaction: Prisma.TransactionClient,
-  customerIdByEmail: IdByEmail
+  customerIdByEmail: IdByEmail,
 ): Promise<number> {
   const invoices: Prisma.InvoiceCreateManyInput[] = [];
 
   for (const customer of SEED_CUSTOMERS) {
     const customerId = getRequiredId(
       customerIdByEmail,
-      customer.email
+      customer.email,
     );
 
     for (
@@ -305,7 +305,7 @@ async function createInvoices(
   }
 
   const result = await transaction.invoice.createMany({
-    data: invoices
+    data: invoices,
   });
 
   return result.count;
@@ -314,18 +314,18 @@ async function createInvoices(
 async function seedDatabase(): Promise<void> {
   const invoiceCount = await prisma.$transaction(
     async (
-      transaction: Prisma.TransactionClient
+      transaction: Prisma.TransactionClient,
     ): Promise<number> => {
       await resetTables(transaction);
 
       const userIdByEmail = await createUsers(transaction);
       const customerIdByEmail = await createCustomers(
         transaction,
-        userIdByEmail
+        userIdByEmail,
       );
 
       return createInvoices(transaction, customerIdByEmail);
-    }
+    },
   );
 
   console.log(`
