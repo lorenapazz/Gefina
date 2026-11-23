@@ -11,6 +11,14 @@
             "semicolons": "always"
         }
     },
+    "css":{
+        "parser":{
+            "tailwindDirectives": true
+        },
+        "formatter": {
+            "quoteStyle": "single"
+        }
+    },
     "linter": {
         "enabled": true,
         "rules": {
