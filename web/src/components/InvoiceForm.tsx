@@ -3,7 +3,7 @@ import {
   type SubmitEvent,
   useState,
 } from 'react';
-import type { InvoiceFieldErrors } from '../../../api/invoice.schema.js';
+import type { InvoiceFieldErrors } from '../../../api/src/schemas/invoice.schema.js';
 import type { CustomerOption } from '../types/customerType.js';
 import type {
   Invoice,

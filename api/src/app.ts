@@ -1,12 +1,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import express from 'express';
-import customers from './customer.route.ts';
+import customers from './routes/customer.route.ts';
 // Importa as rotas da aplicação
-import dashboard from './dashboard.route.ts';
+import dashboard from './routes/dashboard.route.ts';
 // Importa o middleware responsável pelos erros
-import handleError from './error.middleware.ts';
-import invoices from './invoice.route.ts';
+import handleError from './middlewares/error.middleware.ts';
+import invoices from './routes/invoice.route.ts';
 // Importa o Prisma para acessar o banco de dados
 import prisma from './prisma.ts';
 
@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 
 // Localiza a pasta de produção do frontend React
-const dist = path.join(import.meta.dirname, '..', 'web', 'dist');
+const dist = path.join(import.meta.dirname, '..', '..', 'web', 'dist');
 
 // Registra no terminal as requisições recebidas
 app.use((request, _response, next) => {
