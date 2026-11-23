@@ -1,11 +1,11 @@
-import type { Invoice } from './invoiceTypes';
+import type { Invoice } from '../types/invoiceTypes';
 
 import {
   formatCurrency,
   formatDate,
   situationClass,
   situationLabel,
-} from './utils';
+} from '../utils';
 
 interface InvoiceRowProps {
   invoice: Invoice;

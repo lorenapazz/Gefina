@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import type { Dashboard } from './dashboardTypes';
+import type { Dashboard } from '../types/dashboardTypes';
 import InvoiceSummaryTable from './InvoiceSummaryTable';
 import SummaryCard from './SummaryCard';
-import { formatCurrency } from './utils';
+import { formatCurrency } from '../utils';
 
 export default function DashboardPage() {
   const [dashboard, setDashboard] = useState<null | Dashboard>(null);
