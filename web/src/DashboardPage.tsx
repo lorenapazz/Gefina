@@ -1,10 +1,8 @@
-
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { Dashboard } from './dashboardTypes';
-
-import SummaryCard from './SummaryCard';
 import InvoiceSummaryTable from './InvoiceSummaryTable';
+import SummaryCard from './SummaryCard';
 import { formatCurrency } from './utils';
 
 export default function DashboardPage() {
@@ -43,7 +41,7 @@ export default function DashboardPage() {
     <>
       <h1>Painel Inicial</h1>
 
-      <div className='flex gap-4'>
+      <div className="flex gap-4">
         <SummaryCard
           label="Total recebido:"
           value={formatCurrency(dashboard.totals.paid)}
@@ -62,7 +60,7 @@ export default function DashboardPage() {
         />
       </div>
 
-      <div className='flex gap-6 mt-8'>
+      <div className="flex gap-6 mt-8">
         <InvoiceSummaryTable
           title="Faturas recentes"
           dateLabel="Emissão"

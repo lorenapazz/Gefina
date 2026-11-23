@@ -2,15 +2,16 @@ import InvoiceRow from './InvoiceRow';
 import type { Invoice } from './invoiceTypes';
 
 interface InvoiceTableProps {
-    invoices: Invoice[];
-    edit: (invoice: Invoice | null) => void;
+  invoices: Invoice[];
+  edit: (invoice: Invoice | null) => void;
 }
 
 export default function InvoiceTable(props: InvoiceTableProps) {
-  const base = 'p-3 text-sm font-medium text-text-muted border-b border-border';
+  const base =
+    'p-3 text-sm font-medium text-text-muted border-b border-border';
 
   return (
-    <table className='w-full border-collapse'>
+    <table className="w-full border-collapse">
       <thead>
         <tr>
           <th className={`${base} text-left`}>Cliente</th>
@@ -33,4 +34,3 @@ export default function InvoiceTable(props: InvoiceTableProps) {
     </table>
   );
 }
-    

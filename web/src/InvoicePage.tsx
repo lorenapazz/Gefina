@@ -1,25 +1,21 @@
-import { useState, useEffect, useRef } from 'react';
-
-// Importa os tipos das faturas
-import type {
-    Invoice,
-    InvoiceInput,
-    InvoiceFieldErrors
-} from './invoiceTypes.ts';
-
-// Importa os componentes
-import InvoiceTable from './invoiceTable';
+import { useEffect, useRef, useState } from 'react';
+import type { CustomerOption } from './customerType.ts';
 import InvoiceForm from './InvoiceForm';
-
 // Importa as funções da API
 import {
-    getAllInvoices,
-    createInvoice,
-    updateInvoice,
-    deleteInvoice
+  createInvoice,
+  deleteInvoice,
+  getAllInvoices,
+  updateInvoice,
 } from './invoiceApi.js';
-
-import type { CustomerOption } from './customerType.ts';
+// Importa os componentes
+import InvoiceTable from './invoiceTable';
+// Importa os tipos das faturas
+import type {
+  Invoice,
+  InvoiceFieldErrors,
+  InvoiceInput,
+} from './invoiceTypes.ts';
 
 export default function InvoicePage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -141,10 +137,10 @@ export default function InvoicePage() {
 
   return (
     <>
-      <header className='flex justify-between items-center mb-6'>
-        <h1 className='text-xl font-semibold'>Faturas</h1>
+      <header className="flex justify-between items-center mb-6">
+        <h1 className="text-xl font-semibold">Faturas</h1>
         <button
-          className='bg-primary px-4 py-2 rounded-control cursor-pointer focus-visible:outline-2 focus-visible:outline-primary'
+          className="bg-primary px-4 py-2 rounded-control cursor-pointer "
           type="button"
           onClick={() => openModal(null)}
         >
@@ -152,7 +148,7 @@ export default function InvoicePage() {
         </button>
       </header>
 
-      <div className='p-4 bg-surface border border-border rounded-surface'>
+      <div className="p-4 bg-surface border border-border rounded-surface">
         <InvoiceTable invoices={invoices} edit={openModal} />
       </div>
 

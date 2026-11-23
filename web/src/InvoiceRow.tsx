@@ -1,6 +1,11 @@
-import type { Invoice } from "./invoiceTypes";
+import type { Invoice } from './invoiceTypes';
 
-import { situationLabel, formatCurrency, formatDate, situationClass,} from "./utils";
+import {
+  formatCurrency,
+  formatDate,
+  situationClass,
+  situationLabel,
+} from './utils';
 
 interface InvoiceRowProps {
   invoice: Invoice;
@@ -22,12 +27,14 @@ export default function InvoiceRow(props: InvoiceRowProps) {
       <td className={`${base} text-center tabular-nums`}>
         {formatDate(props.invoice.dueDate)}
       </td>
-      <td className={`${base} text-center ${situationClass(props.invoice.situation)}`}>
+      <td
+        className={`${base} text-center ${situationClass(props.invoice.situation)}`}
+      >
         {situationLabel(props.invoice.situation)}
       </td>
       <td className={`${base} text-center px-0`}>
         <button
-          className='px-4 py-2 border border-border rounded-control cursor-pointer hover:bg-surface-raised focus-visible:outline-2 focus-visible:outline-primary'
+          className="px-4 py-2 border border-border rounded-control cursor-pointer hover:bg-surface-raised focus-visible:outline-2 focus-visible:outline-primary"
           type="button"
           onClick={() => props.edit(props.invoice)}
         >

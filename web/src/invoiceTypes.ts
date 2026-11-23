@@ -26,5 +26,5 @@ export interface InvoiceInput {
 }
 
 export interface InvoiceFieldErrors {
-    [field: string]: string[] | undefined;
+  [field: string]: string[] | undefined;
 }

@@ -1,8 +1,7 @@
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router';
 
-import { BrowserRouter, Routes, Route, NavLink } from "react-router";
-
-import DashboardPage from "./DashboardPage";
-import InvoicePage from "./InvoicePage";
+import DashboardPage from './DashboardPage';
+import InvoicePage from './InvoicePage';
 
 export default function App() {
   function apply(state: boolean): string {
@@ -12,34 +11,38 @@ export default function App() {
 
     return `${base} text-text-muted hover:bg-surface-raised hover:text-text`;
   }
-  
+
   return (
     <BrowserRouter>
-      <aside className='fixed w-60 h-full flex flex-col gap-8 p-6 border border-border bg-surface'>
-        <header className='text-xl font-bold uppercase text-center'>Gefina</header>
+      <aside className="fixed w-60 h-full flex flex-col gap-8 p-6 border border-border bg-surface">
+        <header className="text-xl font-bold uppercase text-center">
+          Gefina
+        </header>
         <nav>
-          <ul className='flex flex-col gap-1'>
+          <ul className="flex flex-col gap-1">
             <li>
               <NavLink
                 className={({ isActive }) => apply(isActive)}
-                to='/'>
+                to="/"
+              >
                 Painel Inicial
               </NavLink>
             </li>
             <li>
               <NavLink
                 className={({ isActive }) => apply(isActive)}
-                to='/faturas'>
+                to="/faturas"
+              >
                 Faturas
               </NavLink>
             </li>
           </ul>
         </nav>
       </aside>
-      <main className='ml-60 p-4'>
+      <main className="ml-60 p-4">
         <Routes>
-          <Route path='/' element={<DashboardPage />} />
-          <Route path='/faturas' element={<InvoicePage />} />
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/faturas" element={<InvoicePage />} />
         </Routes>
       </main>
     </BrowserRouter>
