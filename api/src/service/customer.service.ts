@@ -1,4 +1,4 @@
-import prisma from './prisma.ts';
+import prisma from '../prisma.ts';
 
 // Define quais informações do cliente serão retornadas
 interface CustomerOption {

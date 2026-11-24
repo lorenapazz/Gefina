@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import type { CustomerOption } from './customerType.ts';
+import type { CustomerOption } from '../types/customerType.js';
 import InvoiceForm from './InvoiceForm';
 // Importa as funções da API
 import {
@@ -7,7 +7,7 @@ import {
   deleteInvoice,
   getAllInvoices,
   updateInvoice,
-} from './invoiceApi.js';
+} from '../requests/invoiceApi.js';
 // Importa os componentes
 import InvoiceTable from './invoiceTable';
 // Importa os tipos das faturas
@@ -15,7 +15,7 @@ import type {
   Invoice,
   InvoiceFieldErrors,
   InvoiceInput,
-} from './invoiceTypes.ts';
+} from '../types/invoiceTypes.js';
 
 export default function InvoicePage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);

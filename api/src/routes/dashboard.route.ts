@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import findDashboard from './dashboard.service.ts';
+import findDashboard from '../service/dashboard.service.ts';
 
 const router = Router();
 
