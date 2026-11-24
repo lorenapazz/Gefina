@@ -11,7 +11,6 @@ export default function App() {
 
     return `${base} text-text-muted hover:bg-surface-raised hover:text-text`;
   }
-
   return (
     <BrowserRouter>
       <aside className="fixed w-60 h-full flex flex-col gap-8 p-6 border border-border bg-surface">
@@ -44,6 +43,9 @@ export default function App() {
           <Route path="/" element={<DashboardPage />} />
           <Route path="/faturas" element={<InvoicePage />} />
         </Routes>
+         <footer className="mt-8 py-4 text-center text-sm text-text-muted">
+    © 2026. Gefina - Gestor financeiro simples e eficiente
+  </footer>
       </main>
     </BrowserRouter>
   );
